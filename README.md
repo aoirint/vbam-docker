@@ -19,7 +19,17 @@ xhost + local:root
 
 ### Run
 ```sh
-sudo docker run -it --rm --name vbam -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix vbam visualboyadvance-m
+sudo docker run -it --rm --name vbam \
+  -e DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  --gpus all \
+  --group-add $(getent group audio | cut -d: -f3) \
+  -e PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native \
+  -v ${XDG_RUNTIME_DIR}/pulse/native/:${XDG_RUNTIME_DIR}/pulse/native \
+  -v ${HOME}/.config/pulse/cookie:/root/.config/pulse/cookie \
+  -v ${PWD}/vbam:/vbam \
+  vbam \
+  visualboyadvance-m
 ```
 
 ### Recover controlled access to your X screen
