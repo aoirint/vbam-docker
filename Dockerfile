@@ -1,4 +1,8 @@
+# for general machine
 FROM ubuntu:bionic
+
+# for nvidia-driver machine
+# FROM nvidia/opengl:base-ubuntu18.04
 
 ENV VERSION 2.1.4
 ENV SHA1HASH bf6e452b53f47e2fbc4e6e41c92f567aa285cdbe
@@ -10,7 +14,6 @@ RUN apt update \
   ca-certificates \
   tar \
   wget \
-
 # -- from builddeps script
   build-essential \
   g++ \
@@ -43,7 +46,8 @@ RUN apt update \
   libgtk2.0-dev \
   libgtk-3-dev \
   zip \
-
+# sound driver to play sound on host
+  pulseaudio \
 # build
   && mkdir /vbam-build && cd /vbam-build \
   && wget -O vbam.tar.gz https://github.com/visualboyadvance-m/visualboyadvance-m/archive/v${VERSION}.tar.gz \
@@ -53,9 +57,7 @@ RUN apt update \
   && mkdir build && cd build \
   && cmake ../src \
   && make \
-
 # copy to /usr/local/bin/
   && mv visualboyadvance-m /usr/local/bin/ \
-
 # remove build environment
   && rm -r /vbam-build/
