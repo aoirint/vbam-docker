@@ -1,2 +1,3 @@
 #!/bin/bash
-sudo docker build . -t vbam
+docker build . -t vbam
+
