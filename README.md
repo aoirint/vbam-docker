@@ -43,5 +43,4 @@ The error was 'GLXBadContext'.
 
 Are you using nvidia-driver on the host machine?
 
-Open `Dockerfile`, and edit first few lines to use `nvidia/opengl` image instead `ubuntu` as base.
-Then rebuild this image.
+Use `nvidia/opengl` image instead `ubuntu` as base.

@@ -38,6 +38,52 @@ jobs:
         with:
           args: push aoirint/vbam:latest
 
+
+
+      - name: Build :ubuntu-tag
+        if: success()
+        run: docker build . -t aoirint/vbam:ubuntu-${IMAGE_TAG} --build-arg "BASE_IMAGE=ubuntu:bionic"
+
+      - name: Push to docker hub :ubuntu-tag
+        if: success()
+        uses: actions-hub/docker@master
+        with:
+          args: push aoirint/vbam:ubuntu-${IMAGE_TAG}
+
+      - name: Build :ubuntu-latest
+        if: success()
+        run: docker build . -t aoirint/vbam:ubuntu-latest --build-arg "BASE_IMAGE=ubuntu:bionic"
+
+      - name: Push to docker hub :ubuntu-latest
+        if: success()
+        uses: actions-hub/docker@master
+        with:
+          args: push aoirint/vbam:ubuntu-latest
+
+
+
+      - name: Build :nvidia-tag
+        if: success()
+        run: docker build . -t aoirint/vbam:nvidia-${IMAGE_TAG} --build-arg "BASE_IMAGE=nvidia/opengl:base-ubuntu18.04"
+
+      - name: Push to docker hub :nvidia-tag
+        if: success()
+        uses: actions-hub/docker@master
+        with:
+          args: push aoirint/vbam:nvidia-${IMAGE_TAG}
+
+      - name: Build :nvidia-latest
+        if: success()
+        run: docker build . -t aoirint/vbam:nvidia-latest --build-arg "BASE_IMAGE=nvidia/opengl:base-ubuntu18.04"
+
+      - name: Push to docker hub :nvidia-latest
+        if: success()
+        uses: actions-hub/docker@master
+        with:
+          args: push aoirint/vbam:nvidia-latest
+
+
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1

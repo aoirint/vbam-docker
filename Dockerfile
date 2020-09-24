@@ -1,9 +1,5 @@
-# for general machine
-FROM ubuntu:bionic
-
-# for nvidia-driver machine
-FROM nvidia/opengl:base-ubuntu18.04
-
+ARG BASE_IMAGE=ubuntu:bionic
+FROM $BASE_IMAGE
 
 ENV VERSION 2.1.4
 ENV SHA1HASH bf6e452b53f47e2fbc4e6e41c92f567aa285cdbe
