@@ -2,12 +2,11 @@
 FROM ubuntu:bionic
 
 # for nvidia-driver machine
-# FROM nvidia/opengl:base-ubuntu18.04
+FROM nvidia/opengl:base-ubuntu18.04
+
 
 ENV VERSION 2.1.4
 ENV SHA1HASH bf6e452b53f47e2fbc4e6e41c92f567aa285cdbe
-
-WORKDIR /vbam
 
 RUN apt update \
   && apt -qq -y --no-install-recommends install \
@@ -48,6 +47,8 @@ RUN apt update \
   zip \
 # sound driver to play sound on host
   pulseaudio \
+# su command
+  gosu \
 # build
   && mkdir /vbam-build && cd /vbam-build \
   && wget -O vbam.tar.gz https://github.com/visualboyadvance-m/visualboyadvance-m/archive/v${VERSION}.tar.gz \
@@ -56,8 +57,14 @@ RUN apt update \
   && tar xf vbam.tar.gz -C src --strip-components 1 \
   && mkdir build && cd build \
   && cmake ../src \
-  && make \
+  && make -j$(nproc) \
 # copy to /usr/local/bin/
   && mv visualboyadvance-m /usr/local/bin/ \
 # remove build environment
   && rm -r /vbam-build/
+
+WORKDIR /vbam
+
+ADD docker-entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT [ "/usr/local/bin/docker-entrypoint.sh" ]

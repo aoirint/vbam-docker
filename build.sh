@@ -1,3 +1,2 @@
 #!/bin/bash
-docker build . -t vbam
-
+docker build . -t aoirint/vbam
