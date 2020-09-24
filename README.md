@@ -8,6 +8,7 @@ To use local data directory,
 replace `"${VBAM_DATA_DIR:-vbam}:/vbam"` to `"ABSOLUTE_HOST_DIR_PATH:/vbam"`,
 or set environment variable `VBAM_DATA_DIR` to the absolute directory path that you want.
 
+### Docker Volume & Non-NVIDIA
 ```sh
 docker run --rm \
   -e DISPLAY \
@@ -19,9 +20,26 @@ docker run --rm \
   -v "${HOME}/.config/pulse/cookie:/tmp/pulseaudio_cookie" \
   -e "HOST_UID=$(id -u $USER)" \
   -e "HOST_GID=$(id -g $USER)" \
-  -v "${VBAM_DATA_DIR:-vbam}:/vbam" \
+  -v "${VBAM_DATA_DIR:-vbam-data}:/vbam" \
   -v "${VBAM_CONF_DIR:-vbam-conf}:/tmp/vbam_conf" \
   aoirint/vbam
+```
+
+### Local directory & NVIDIA
+```sh
+docker run --rm \
+  -e DISPLAY \
+  -v "/tmp/.X11-unix:/tmp/.X11-unix" \
+  --gpus all \
+  --group-add "$(getent group audio | cut -d: -f3)" \
+  -e "PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native" \
+  -v "${XDG_RUNTIME_DIR}/pulse/native/:${XDG_RUNTIME_DIR}/pulse/native" \
+  -v "${HOME}/.config/pulse/cookie:/tmp/pulseaudio_cookie" \
+  -e "HOST_UID=$(id -u $USER)" \
+  -e "HOST_GID=$(id -g $USER)" \
+  -v "${VBAM_DATA_DIR:-${PWD}/vbam-data}:/vbam" \
+  -v "${VBAM_CONF_DIR:-${PWD}/vbam-conf}:/tmp/vbam_conf" \
+  aoirint/vbam:nvidia
 ```
 
 

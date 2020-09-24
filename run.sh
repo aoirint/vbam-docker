@@ -10,6 +10,6 @@ docker run --rm \
   -v "${HOME}/.config/pulse/cookie:/tmp/pulseaudio_cookie" \
   -e "HOST_UID=$(id -u $USER)" \
   -e "HOST_GID=$(id -g $USER)" \
-  -v "${VBAM_DATA_DIR:-vbam}:/vbam" \
+  -v "${VBAM_DATA_DIR:-vbam-data}:/vbam" \
   -v "${VBAM_CONF_DIR:-vbam-conf}:/tmp/vbam_conf" \
   aoirint/vbam

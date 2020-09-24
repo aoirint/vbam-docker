@@ -18,7 +18,7 @@ groupmod -g "${HOST_GID}" "${USER_NAME}"
 chown -R "${USER_NAME}:${USER_NAME}" /vbam
 
 gosu "${USER_NAME}" mkdir -p "/home/${USER_NAME}/.config/pulse"
-mv "${PULSEAUDIO_COOKIE_TMP_MOUNT_PATH}" "/home/${USER_NAME}/.config/pulse/cookie"
-mv "${VBAM_CONFIG_TMP_MOUNT_PATH}" "/home/${USER_NAME}/.config/visualboyadvance-m"
+cp "${PULSEAUDIO_COOKIE_TMP_MOUNT_PATH}" "/home/${USER_NAME}/.config/pulse/cookie"
+cp -r "${VBAM_CONFIG_TMP_MOUNT_PATH}" "/home/${USER_NAME}/.config/visualboyadvance-m"
 
 gosu "${USER_NAME}" visualboyadvance-m "$@"
