@@ -1,23 +1,13 @@
 # vbam-docker
-Run VisualBoyAdvance on Docker.
+Run VisualBoyAdvance-M in Docker.
 
 - https://github.com/visualboyadvance-m/visualboyadvance-m (GPLv2)
 
-## Build
-
-```sh
-docker build . -t vbam
-```
-
-
 ## Run
+To use local data directory,
+replace `"${VBAM_DATA_DIR:-vbam}:/vbam"` to `"ABSOLUTE_HOST_DIR_PATH:/vbam"`,
+or set environment variable `VBAM_DATA_DIR` to the absolute directory path that you want.
 
-### Allow local root user to access your display
-```sh
-xhost + local:root
-```
-
-### Run
 ```sh
 docker run --rm \
   -e DISPLAY \
@@ -27,15 +17,13 @@ docker run --rm \
   -e "PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native" \
   -v "${XDG_RUNTIME_DIR}/pulse/native/:${XDG_RUNTIME_DIR}/pulse/native" \
   -v "${HOME}/.config/pulse/cookie:/tmp/pulseaudio_cookie" \
+  -e "HOST_UID=$(id -u $USER)" \
+  -e "HOST_GID=$(id -g $USER)" \
   -v "${VBAM_DATA_DIR:-vbam}:/vbam" \
-  -v "${VBAM_CONF_DIR:-vbam-conf}:/tmp/visualboyadvance-m-conf" \
+  -v "${VBAM_CONF_DIR:-vbam-conf}:/tmp/vbam_conf" \
   aoirint/vbam
 ```
 
-### Recover controlled access to your X screen
-```sh
-xhost -
-```
 
 ## Error
 ### libGL error: No matching fbConfigs or visuals found
