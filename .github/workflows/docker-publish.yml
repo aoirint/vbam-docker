@@ -22,65 +22,62 @@ jobs:
         if: success()
         run: docker build -t aoirint/vbam:${IMAGE_TAG} .
 
-      - name: Push to docker hub :tag
-        if: success()
-        uses: actions-hub/docker@master
-        with:
-          args: push aoirint/vbam:${IMAGE_TAG}
-
       - name: Build :latest
         if: success()
         run: docker build -t aoirint/vbam:latest .
-
-      - name: Push to docker hub :latest
-        if: success()
-        uses: actions-hub/docker@master
-        with:
-          args: push aoirint/vbam:latest
-
-
 
       - name: Build :ubuntu-tag
         if: success()
         run: docker build . -t aoirint/vbam:ubuntu-${IMAGE_TAG} --build-arg "BASE_IMAGE=ubuntu:bionic"
 
-      - name: Push to docker hub :ubuntu-tag
+      - name: Build :ubuntu
         if: success()
-        uses: actions-hub/docker@master
-        with:
-          args: push aoirint/vbam:ubuntu-${IMAGE_TAG}
-
-      - name: Build :ubuntu-latest
-        if: success()
-        run: docker build . -t aoirint/vbam:ubuntu-latest --build-arg "BASE_IMAGE=ubuntu:bionic"
-
-      - name: Push to docker hub :ubuntu-latest
-        if: success()
-        uses: actions-hub/docker@master
-        with:
-          args: push aoirint/vbam:ubuntu-latest
-
-
+        run: docker build . -t aoirint/vbam:ubuntu --build-arg "BASE_IMAGE=ubuntu:bionic"
 
       - name: Build :nvidia-tag
         if: success()
         run: docker build . -t aoirint/vbam:nvidia-${IMAGE_TAG} --build-arg "BASE_IMAGE=nvidia/opengl:base-ubuntu18.04"
 
-      - name: Push to docker hub :nvidia-tag
+      - name: Build :nvidia
+        if: success()
+        run: docker build . -t aoirint/vbam:nvidia --build-arg "BASE_IMAGE=nvidia/opengl:base-ubuntu18.04"
+
+
+      - name: Deploy :tag
+        if: success()
+        uses: actions-hub/docker@master
+        with:
+          args: push aoirint/vbam:${IMAGE_TAG}
+
+      - name: Deploy :latest
+        if: success()
+        uses: actions-hub/docker@master
+        with:
+          args: push aoirint/vbam:latest
+
+      - name: Deploy :ubuntu-tag
+        if: success()
+        uses: actions-hub/docker@master
+        with:
+          args: push aoirint/vbam:ubuntu-${IMAGE_TAG}
+
+      - name: Deploy :ubuntu
+        if: success()
+        uses: actions-hub/docker@master
+        with:
+          args: push aoirint/vbam:ubuntu
+
+      - name: Deploy :nvidia-tag
         if: success()
         uses: actions-hub/docker@master
         with:
           args: push aoirint/vbam:nvidia-${IMAGE_TAG}
 
-      - name: Build :nvidia-latest
-        if: success()
-        run: docker build . -t aoirint/vbam:nvidia-latest --build-arg "BASE_IMAGE=nvidia/opengl:base-ubuntu18.04"
-
-      - name: Push to docker hub :nvidia-latest
+      - name: Deploy :nvidia
         if: success()
         uses: actions-hub/docker@master
         with:
-          args: push aoirint/vbam:nvidia-latest
+          args: push aoirint/vbam:nvidia
 
 
 
