@@ -22,6 +22,7 @@ docker run --rm \
   -e "HOST_GID=$(id -g $USER)" \
   -v "${VBAM_DATA_DIR:-vbam-data}:/vbam" \
   -v "${VBAM_CONF_DIR:-vbam-conf}:/tmp/vbam_conf" \
+  -d \
   aoirint/vbam
 ```
 
@@ -39,6 +40,7 @@ docker run --rm \
   -e "HOST_GID=$(id -g $USER)" \
   -v "${VBAM_DATA_DIR:-${PWD}/vbam-data}:/vbam" \
   -v "${VBAM_CONF_DIR:-${PWD}/vbam-conf}:/tmp/vbam_conf" \
+  -d \
   aoirint/vbam:nvidia
 ```
 
